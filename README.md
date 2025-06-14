@@ -19,10 +19,6 @@ DrinkStore — bu spirtli ichimliklarni (vino, pivo, viski va boshqa) onlayn tar
 - **Autentifikatsiya:** JWT / OAuth
 - **To‘lov tizimi:** Stripe / Payme (Moslashtirilgan)
 
-## 📸 Skrinshotlar
-
-![Homepage Screenshot](./screenshots/homepage.png)
-![Product Page](./screenshots/product.png)
 
 ## ⚠️ Eslatma
 
@@ -31,7 +27,7 @@ Bu loyiha 18 yoshdan kattalar uchun mo‘ljallangan spirtli ichimliklar savdosi 
 ## 📂 Ishga tushurish
 
 ```bash
-git clone
+git clone https://github.com/Doston21-wq/E-commerse-Website-1.git
 cd drinkstore
 npm install
 npm run dev
