@@ -60,38 +60,41 @@ const ProductList = () => {
         const title = product.strDrink;
         const image = product.strDrinkThumb;
 
-        return (
-          <div className="product-card" key={id}>
-            <div className="image-wrapper">
-              <img src={image} alt={title} />
-             <button
-  className={`favorite-btn ${isLiked(id) ? "liked" : ""}`}
-  onClick={() => toggleLike(product)}
->
-  {isLiked(id) ? <FaHeart size={17} color="red" /> : <FaRegHeart size={17} />}
-  {isLiked(id) && (
-    <span className="like-count-badge">1</span>
-  )}
-</button>
+     return (
+  <div className="product-list">
+    {products.map((product) => {
+      const { id, title, image, description, price } = product;
 
-            </div>
-            <div className="card-body">
-              <h4>
-                <Link className="product-title" to={`/product1/${id}`}>
-                  {title}
-                </Link>
-              </h4>
-              <p className="product-description">
-                {product.strInstructions?.slice(0, 100)}...
-              </p>
-              <p className="product-price">$0.00</p>
-              <button className="add-to-cart">Add to Cart</button>
-            </div>
+      return (
+        <div className="product-card" key={id}>
+          <div className="image-wrapper">
+            <img src={image} alt={title} />
+            <button
+              className={`favorite-btn ${isLiked(id) ? "liked" : ""}`}
+              onClick={() => toggleLike(product)}
+            >
+              {isLiked(id) ? <FaHeart size={17} color="red" /> : <FaRegHeart size={17} />}
+              {isLiked(id) && <span className="like-count-badge">1</span>}
+            </button>
           </div>
-        );
-      })}
-    </div>
-  );
+          <div className="card-body">
+            <h4>
+              <Link className="product-title" to={`/product1/${id}`}>
+                {title}
+              </Link>
+            </h4>
+            <p className="product-description">
+              {description.slice(0, 100)}...
+            </p>
+            <p className="product-price">${price}</p>
+            <button className="add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+);
+
 };
 
 export default ProductList;
