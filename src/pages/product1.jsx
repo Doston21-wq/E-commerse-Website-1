@@ -8,11 +8,11 @@ import Footer from '../components/footer';
 const SingleProduct = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [likedImages, setLikedImages] = useState(new Set());
+  const [likedProducts, setLikedProducts] = useState(new Set());
   const [quantity, setQuantity] = useState(1);
 
   const toggleLike = (id) => {
-    setLikedImages((prev) => {
+    setLikedProducts((prev) => {
       const updated = new Set(prev);
       updated.has(id) ? updated.delete(id) : updated.add(id);
       return updated;
@@ -26,29 +26,27 @@ const SingleProduct = () => {
 
   useEffect(() => {
     axios
-      .get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id)
+      .get(`https://fakestoreapi.com/products/${id}`)
       .then(res => {
-        if (res.data.drinks && res.data.drinks.length > 0) {
-          setProduct(res.data.drinks[0]);
-        }
+        setProduct(res.data);
       })
       .catch(err => console.error('Xatolik:', err));
   }, [id]);
 
   if (!product) return <p className="loading-text">Loading...</p>;
 
-  const isLiked = likedImages.has(product.idDrink);
+  const isLiked = likedProducts.has(product.id);
 
   return (
     <div className="single-product-container">
       <div className="product-image-section">
-        <img src={product.strDrinkThumb} alt={product.strDrink} />
+        <img src={product.image} alt={product.title} />
       </div>
 
       <div className="product-info-section">
-        <h2 className="product-title">{product.strDrink}</h2>
-        <p className="product-rating">★ 4.5 (132 reviews)</p>
-        <p className="product-price">$0.00</p>
+        <h2 className="product-title">{product.title}</h2>
+        <p className="product-rating">★ {product.rating?.rate || "4.5"} ({product.rating?.count || 132} reviews)</p>
+        <p className="product-price">${product.price}</p>
 
         <div className="tab-buttons">
           <button className="active-tab">Description</button>
@@ -56,7 +54,7 @@ const SingleProduct = () => {
           <button>Shipping</button>
         </div>
 
-        <p className="product-description">{product.strInstructions}</p>
+        <p className="product-description">{product.description}</p>
 
         <div className="quantity-control">
           <span>Quantity</span>
@@ -71,7 +69,7 @@ const SingleProduct = () => {
           <button className="add-to-cart">Add to Cart</button>
           <button
             className={`favorite-btn like-btn ${isLiked ? "liked" : ""}`}
-            onClick={() => toggleLike(product.idDrink)}
+            onClick={() => toggleLike(product.id)}
           >
             {isLiked ? <FaHeart size={17} color="red" /> : <FaRegHeart size={17} />}
           </button>
